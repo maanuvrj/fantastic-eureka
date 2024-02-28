@@ -14,34 +14,41 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-private accelerometer accelerometer;
-private gyroscope gyroscope;
+    private TextView translation_data, rotation_data;
+    private accelerometer accelerometer;
+    private gyroscope gyroscope;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+//        text views
+        translation_data = findViewById(R.id.translation_data);
+        rotation_data = findViewById(R.id.rotation_data);
+
         accelerometer = new accelerometer(this);
         gyroscope = new gyroscope(this);
         accelerometer.setListener(new accelerometer.Listener() {
             @Override
             public void onTranslation(float tx, float ty, float tz) {
-                if(tz>6){
-                    System.out.println("tz "+tz);
-                }
+                translation_data.setText("tx: "+tx +"\nty: "+ty+"\ntz: "+tz+"");
+//                if (tz > 6) {
+//                    System.out.println("tz " + tz);
+//                }
             }
         });
 
         gyroscope.setListener(new gyroscope.Listener() {
             @Override
             public void onRotation(float rx, float ry, float rz) {
-                if(rz > 1.0f){
-                    getWindow().getDecorView().setBackgroundColor(Color.GRAY);
-                }
-                if(rz > -1.0f){
+                rotation_data.setText("rx: "+rx +"\nry: "+ry+"\nrz: "+rz+"");
+//                if (rz > 1.0f) {
+//                    getWindow().getDecorView().setBackgroundColor(Color.GRAY);
+//                }
+//                if (rz > -1.0f) {
 //                    getWindow().getDecorView().setBackgroundColor(Color.CYAN);
-                }
+//                }
             }
         });
     }
